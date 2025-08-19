@@ -28,4 +28,28 @@ public class ItemService {
                 .map(EntityDtoMapper::toItemDto)
                 .collect(Collectors.toList());
     }
+
+        public ItemDto getItemById(Long id) {
+            Item item = itemRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Item not found"));
+            return EntityDtoMapper.toItemDto(item);
+        }
+
+        public ItemDto updateItem(Long id, ItemDto dto) {
+            Item item = itemRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Item not found"));
+            item.setName(dto.getName());
+            item.setImageUrl(dto.getImageUrl());
+            item.setCountable(dto.isCountable());
+            item.setPricePerUnit(dto.getPricePerUnit());
+            item.setUnit(dto.getUnit());
+            return EntityDtoMapper.toItemDto(itemRepository.save(item));
+        }
+
+        public void deleteItem(Long id) {
+            if (!itemRepository.existsById(id)) {
+                throw new RuntimeException("Item not found");
+            }
+            itemRepository.deleteById(id);
+        }
 }

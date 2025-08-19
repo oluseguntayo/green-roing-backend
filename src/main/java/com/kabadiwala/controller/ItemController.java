@@ -32,4 +32,21 @@ public class ItemController {
     public List<ItemDto> getAllItems() {
         return itemService.getAllItems();
     }
+        // Get item by id
+        @GetMapping("/{id}")
+        public ItemDto getItemById(@PathVariable Long id) {
+            return itemService.getItemById(id);
+        }
+
+        // Update item
+        @PutMapping("/{id}")
+        public ItemDto updateItem(@PathVariable Long id, @RequestBody ItemDto dto) {
+            return itemService.updateItem(id, dto);
+        }
+
+        // Delete item
+        @DeleteMapping("/{id}")
+        public void deleteItem(@PathVariable Long id) {
+            itemService.deleteItem(id);
+        }
 }
